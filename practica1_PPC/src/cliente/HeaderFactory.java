@@ -6,14 +6,14 @@ public class HeaderFactory {
 	private final static String VER= "HTTP/1.1";
 	
 	public String generaPeticion(String met, String res, String cookie) {
-		String peticion = met + " " + res +" "+ VER +" "+ "\n";
-		peticion += "Accept: *.html\nAccept: *.txt\n";
-		peticion += "Host: localhost\n";
-		peticion += "Connection: keep-alive\n";
-		peticion += "User-Agent: java clase cliente\n";
-		peticion += "Accept-language: es-en\n";
+		String peticion = met + " " + res +" "+ VER +" "+ "\r\n";
+		peticion += "Accept: *.html\r\nAccept: *.txt\r\n";
+		peticion += "Host: localhost\r\n";
+		peticion += "Connection: keep-alive\r\n";
+		peticion += "User-Agent: java clase cliente\r\n";
+		peticion += "Accept-language: es-en\r\n";
 		if(!cookie.isEmpty()) peticion += "Cookie: " + cookie;
-		peticion += "\n";
+		peticion += "\r\n";
 		return peticion;
 	}
 	

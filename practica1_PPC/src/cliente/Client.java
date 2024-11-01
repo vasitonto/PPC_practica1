@@ -37,23 +37,23 @@ private final static int PORT = 9999;
 				sOut.writeBytes(packet + "\r\n"); // Envío datos sin contenido
 				
 				String textoDevuelto;
-				while((textoDevuelto = sIn.readLine()) != null && !textoDevuelto.isEmpty()){//.length() != 0) {
+//				while((textoDevuelto = sIn.readLine()) != null && !textoDevuelto.isEmpty()){//.length() != 0) {
+				while((textoDevuelto = sIn.readLine()) != null){
 					System.out.println(textoDevuelto); // Recibo la respuesta
 					//contentRead += contentRead + textoDevuelto.length();
 					if (textoDevuelto.contains("Content-length")) { 
 						contentLen = Integer.valueOf(textoDevuelto.split(": ")[1]);
-						cuerpo = new char[contentLen + 10];
+//						cuerpo = new char[contentLen + 600];
 					}
 					
-					if (textoDevuelto.contains("Set-Cookie")) {
-						// por cada cabecera que contenga set-cookie aumentamos el string cookie de la siguiente forma:
+					if (textoDevuelto.contains("Set-Cookie")) { // por cada cabecera que contenga set-cookie aumentamos el string cookie de la siguiente forma:
 						cookies += genCabeceras.procesaCookie(textoDevuelto);
 					}
 				}
 
 				// ahora leo el cuerpo del mensaje gracias a la cabecera Content-Length
-				int charLeidos = sIn.read(cuerpo, 0, contentLen+10);
-				System.out.println("el cuerpo es:\n"+ cuerpo);
+//				int charLeidos = sIn.read(cuerpo, 0, contentLen+600);
+//				System.out.println("el cuerpo es:\n"+ new String(cuerpo));
 
 //			
 			}

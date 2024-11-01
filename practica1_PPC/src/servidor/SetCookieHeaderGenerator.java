@@ -11,17 +11,16 @@ public class SetCookieHeaderGenerator {
 	
 	
 	protected String generarCookiesNuevas(String recurso) {
-		String cookie = "Set-Cookie: Recurso=" + recurso +";";
-		cookie += "Expires=" + (LocalDateTime.now().plusDays(3).format(formato)) + ";\n";
-		System.out.println("no se recibieron cookies, enviando " + cookie);
+		String cookie = "Set-Cookie: Recurso=" + recurso +"; ";
+		cookie += "Expires=" + (LocalDateTime.now().plusDays(3).format(formato)) + ";\n";  
+//		System.out.println("no se recibieron cookies, enviando " + cookie);
 		return cookie;
 	}
 	
 	protected String generarCookies(String recurso, String cookiesLeidas) {
-		String cookie = "Set-Cookie: Recurso=" + recurso +";";
-		cookie += "Expires=" + (LocalDateTime.now().plusDays(3).format(formato)) + ";\n";
-		cookie += cookiesLeidas;
-		System.out.println("se recibieron cookies\nenviando: " + cookie);
+		String cookie = "Set-Cookie: Recurso=" + recurso +"; ";
+		cookie += "Expires=" + (LocalDateTime.now().plusDays(3).format(formato)) + ";\r\n";
+		cookie += "Set-Cookie: " + cookiesLeidas;
 		return cookie;
 	}
 }

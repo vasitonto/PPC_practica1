@@ -18,7 +18,7 @@ class GestorPeticion extends Thread
 	public void run()
 	{
 		DataInputStream sIn;
-		PrintStream sOut;
+		PrintWriter sOut;
 //		String peticion = "";
 		String texto;
 		String respuesta;
@@ -30,7 +30,7 @@ class GestorPeticion extends Thread
 		SetCookieHeaderGenerator creadorCookies = new SetCookieHeaderGenerator();
 		try {
 			sIn = new DataInputStream(s.getInputStream());
-			sOut = new PrintStream(s.getOutputStream());
+			sOut = new PrintWriter(s.getOutputStream(), true);
 			
 			while(!s.isClosed()) {
 				
@@ -46,9 +46,9 @@ class GestorPeticion extends Thread
 				
 				//preparo la respuesta con cabeceras y un HTML que devuelve el recurso pedido
 				cuerpoRespuesta = creadorCuerpo.creaHTML(recurso);
-				respuesta = creadorCabeceras.generarCabeceras("html", cuerpoRespuesta.length(), recurso) + cookies + "\n" + cuerpoRespuesta + "\r\n";
+				respuesta = creadorCabeceras.generarCabeceras("html", cuerpoRespuesta.length(), recurso) + cookies + "\r\n" + cuerpoRespuesta + "\r\n";
 //				System.out.print("\nAquí está la respuesta que se va a enviar: \n"+ respuesta + "\n");
-				sOut.writeBytes(respuesta.getBytes());	
+				sOut.println(respuesta.getBytes());
 				
 			}
 			sIn.close();
