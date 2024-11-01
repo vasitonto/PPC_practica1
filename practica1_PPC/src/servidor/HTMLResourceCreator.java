@@ -5,7 +5,7 @@ public class HTMLResourceCreator {
 	public HTMLResourceCreator() {};
 	
 	public String creaHTML(String recurso) {
-		String doc = "<!DOCTYPE html>\n<html>\n<body>\n<p>recurso pedido: " +  recurso + "</p>\n</body>\n</html>";
+		String doc = "<!DOCTYPE html>\r\n<html>\r\n<body>\r\n<p>recurso pedido: " +  recurso + "</p>\r\n</body>\r\n</html>";
 		return doc;
 	};
 }

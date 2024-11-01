@@ -17,7 +17,7 @@ class GestorPeticion extends Thread
 	@SuppressWarnings("deprecation")
 	public void run()
 	{
-		DataInputStream sIn;
+		BufferedReader sIn;
 		PrintWriter sOut;
 //		String peticion = "";
 		String texto;
@@ -29,16 +29,25 @@ class GestorPeticion extends Thread
 		HTMLResourceCreator creadorCuerpo = new HTMLResourceCreator();
 		SetCookieHeaderGenerator creadorCookies = new SetCookieHeaderGenerator();
 		try {
-			sIn = new DataInputStream(s.getInputStream());
+			sIn = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			sOut = new PrintWriter(s.getOutputStream(), true);
 			
 			while(!s.isClosed()) {
 				
-				while(!(texto = sIn.readLine()).isEmpty() && texto != null) {	
+				recurso = "";
+		        cookies = "";
+		        cuerpoRespuesta = "";
+		        
+		        while ((texto = sIn.readLine()) != null && !texto.isEmpty()) {	
 					//aqui voy a procesar la primera línea de la peticion
-					if(texto.contains("GET") || texto.contains("POST")) {recurso = texto.split(" ")[1];}
+					if(texto.contains("GET") || texto.contains("POST")) {
+						recurso = texto.split(" ")[1];
+					}
 					
-					if(texto.contains("Cookie:")) cookies += creadorCookies.generarCookies(recurso, texto.substring(8));
+					if(texto.contains("Cookie:")) {
+						cookies += creadorCookies.generarCookies(recurso, texto.substring(8));
+					}
+					System.out.println(texto);
 				}
 				
 				//compruebo si el string de cookies está vacío. Si lo está es que es la primera conexión.
@@ -46,10 +55,11 @@ class GestorPeticion extends Thread
 				
 				//preparo la respuesta con cabeceras y un HTML que devuelve el recurso pedido
 				cuerpoRespuesta = creadorCuerpo.creaHTML(recurso);
-				respuesta = creadorCabeceras.generarCabeceras("html", cuerpoRespuesta.length(), recurso) + cookies + "\r\n" + cuerpoRespuesta + "\r\n";
-//				System.out.print("\nAquí está la respuesta que se va a enviar: \n"+ respuesta + "\n");
-				sOut.println(respuesta.getBytes());
-				
+				respuesta = creadorCabeceras.generarCabeceras("text/html", cuerpoRespuesta.length(), recurso) + cookies + "\r\n\r\n" + cuerpoRespuesta + "\r\n\r\n";
+				System.out.print("\nAquí está la respuesta que se va a enviar: \n"+ respuesta + "\n");
+				sOut.print(respuesta.toString());
+				sOut.flush();
+				continue;
 			}
 			sIn.close();
 			sOut.close();

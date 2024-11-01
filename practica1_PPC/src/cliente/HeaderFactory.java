@@ -13,7 +13,7 @@ public class HeaderFactory {
 		peticion += "User-Agent: java clase cliente\r\n";
 		peticion += "Accept-language: es-en\r\n";
 		if(!cookie.isEmpty()) peticion += "Cookie: " + cookie;
-		peticion += "\r\n";
+		peticion += "\r\n\r\n";
 		return peticion;
 	}
 	
