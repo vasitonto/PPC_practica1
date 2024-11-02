@@ -13,7 +13,7 @@ private final static int PORT = 9999;
 		Socket socCli;
 		BufferedReader userReader = new BufferedReader(new InputStreamReader(System.in));;
 		BufferedReader sIn;
-		PrintWriter sOut;
+		DataOutputStream sOut;
 		HeaderFactory genCabeceras = new HeaderFactory();
 		boolean cont = true;
 		boolean esCuerpo = false;
@@ -26,15 +26,15 @@ private final static int PORT = 9999;
 			//inicializo el socket y los buffers IO
 			socCli = new Socket ("localhost", PORT);
 			sIn = new BufferedReader(new InputStreamReader(socCli.getInputStream()));
-			sOut = new PrintWriter(socCli.getOutputStream(), true);
+			sOut = new DataOutputStream(socCli.getOutputStream());
 			
 			while (cont) {
 				System.out.print("Introduce la dirección del recurso, o escribe \"exit\" para salir: ");
 				String recurso = userReader.readLine();
 				if (recurso.equals("exit"))cont = false;
 				String packet = genCabeceras.generaPeticion("GET", recurso, cookies);//genero un paquete sin contenido
-				System.out.print("se enviará:\n" + packet);
-				sOut.print(packet); // Envío datos sin contenido
+				System.out.print("se enviará:\n" + packet + "a\n");
+				sOut.writeBytes(packet); // Envío datos sin contenido
 				
 				String textoDevuelto;
 //				while((textoDevuelto = sIn.readLine()) != null && !textoDevuelto.isEmpty()){//.length() != 0) {

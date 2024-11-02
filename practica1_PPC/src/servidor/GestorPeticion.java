@@ -30,7 +30,7 @@ class GestorPeticion extends Thread
 		SetCookieHeaderGenerator creadorCookies = new SetCookieHeaderGenerator();
 		try {
 			sIn = new BufferedReader(new InputStreamReader(s.getInputStream()));
-			sOut = new PrintWriter(s.getOutputStream(), true);
+			sOut = new PrintWriter(s.getOutputStream());
 			
 			while(!s.isClosed()) {
 				
@@ -38,7 +38,7 @@ class GestorPeticion extends Thread
 		        cookies = "";
 		        cuerpoRespuesta = "";
 		        
-		        while ((texto = sIn.readLine()) != null && !texto.isEmpty()) {	
+		        while ((texto = sIn.readLine()) != null ) { //&& !texto.isEmpty()) {	
 					//aqui voy a procesar la primera línea de la peticion
 					if(texto.contains("GET") || texto.contains("POST")) {
 						recurso = texto.split(" ")[1];
@@ -57,7 +57,7 @@ class GestorPeticion extends Thread
 				cuerpoRespuesta = creadorCuerpo.creaHTML(recurso);
 				respuesta = creadorCabeceras.generarCabeceras("text/html", cuerpoRespuesta.length(), recurso) + cookies + "\r\n\r\n" + cuerpoRespuesta + "\r\n\r\n";
 				System.out.print("\nAquí está la respuesta que se va a enviar: \n"+ respuesta + "\n");
-				sOut.print(respuesta.toString());
+				sOut.print(respuesta);
 				sOut.flush();
 				continue;
 			}
