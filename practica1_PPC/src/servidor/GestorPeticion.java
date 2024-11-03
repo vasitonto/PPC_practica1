@@ -48,7 +48,7 @@ class GestorPeticion extends Thread
 					}
 					respuesta += texto + "\r\n";
 				}
-		        System.out.println("Se ha recibido: " + respuesta);
+		        System.out.println("Se ha recibido:\r\n" + respuesta);
 				
 				//compruebo si el string de cookies está vacío. Si lo está es que es la primera conexión.
 				if(cookies.isEmpty()) cookies = creadorCookies.generarCookiesNuevas(recurso);

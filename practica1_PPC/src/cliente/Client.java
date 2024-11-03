@@ -52,7 +52,7 @@ private final static int PORT = 9999;
 				}
 
 				// ahora leo el cuerpo del mensaje gracias a la cabecera Content-Length
-				int charLeidos = sIn.read(cuerpo, 0, contentLen+10);
+				sIn.read(cuerpo, 0, contentLen+10);
 				System.out.print(new String(cuerpo));
 
 //			
