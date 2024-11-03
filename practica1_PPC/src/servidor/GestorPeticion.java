@@ -14,12 +14,10 @@ class GestorPeticion extends Thread
 	{
 		this.s = s;
 	}
-	@SuppressWarnings("deprecation")
 	public void run()
 	{
 		BufferedReader sIn;
 		PrintWriter sOut;
-//		String peticion = "";
 		String texto;
 		String respuesta;
 		String cuerpoRespuesta;
@@ -37,8 +35,9 @@ class GestorPeticion extends Thread
 				recurso = "";
 		        cookies = "";
 		        cuerpoRespuesta = "";
+		        respuesta="";
 		        
-		        while ((texto = sIn.readLine()) != null ) { //&& !texto.isEmpty()) {	
+		        while ((texto = sIn.readLine()) != null && !texto.isEmpty()) {	
 					//aqui voy a procesar la primera línea de la peticion
 					if(texto.contains("GET") || texto.contains("POST")) {
 						recurso = texto.split(" ")[1];
@@ -47,8 +46,9 @@ class GestorPeticion extends Thread
 					if(texto.contains("Cookie:")) {
 						cookies += creadorCookies.generarCookies(recurso, texto.substring(8));
 					}
-					System.out.println(texto);
+					respuesta += texto + "\r\n";
 				}
+		        System.out.println("Se ha recibido: " + respuesta);
 				
 				//compruebo si el string de cookies está vacío. Si lo está es que es la primera conexión.
 				if(cookies.isEmpty()) cookies = creadorCookies.generarCookiesNuevas(recurso);
@@ -56,7 +56,7 @@ class GestorPeticion extends Thread
 				//preparo la respuesta con cabeceras y un HTML que devuelve el recurso pedido
 				cuerpoRespuesta = creadorCuerpo.creaHTML(recurso);
 				respuesta = creadorCabeceras.generarCabeceras("text/html", cuerpoRespuesta.length(), recurso) + cookies + "\r\n\r\n" + cuerpoRespuesta + "\r\n\r\n";
-				System.out.print("\nAquí está la respuesta que se va a enviar: \n"+ respuesta + "\n");
+				System.out.print("\nSe enviará: \n"+ respuesta + "\n");
 				sOut.print(respuesta);
 				sOut.flush();
 				continue;
