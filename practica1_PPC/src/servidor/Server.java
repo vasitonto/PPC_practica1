@@ -10,7 +10,7 @@ class Server
 		Socket cliente = null;
 		
 		try {
-			s = new ServerSocket (9999);
+			s = new ServerSocket (80);
 		} catch (IOException e) { e.printStackTrace (); }
 		
 		while (true)

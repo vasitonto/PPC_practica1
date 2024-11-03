@@ -39,16 +39,18 @@ class GestorPeticion extends Thread
 		        
 		        while ((texto = sIn.readLine()) != null && !texto.isEmpty()) {	
 					//aqui voy a procesar la primera línea de la peticion
-					if(texto.contains("GET") || texto.contains("POST")) {
+		        	if(texto.contains("exit")) break;
+					if(texto.contains("GET") || texto.contains("POST") || texto.contains("HEAD")) {
 						recurso = texto.split(" ")[1];
 					}
+					//else enviar cabecera de error
 					
 					if(texto.contains("Cookie:")) {
 						cookies += creadorCookies.generarCookies(recurso, texto.substring(8));
 					}
 					respuesta += texto + "\r\n";
 				}
-		        System.out.println("Se ha recibido:\r\n" + respuesta);
+		        System.out.print("Se ha recibido:\r\n" + respuesta);
 				
 				//compruebo si el string de cookies está vacío. Si lo está es que es la primera conexión.
 				if(cookies.isEmpty()) cookies = creadorCookies.generarCookiesNuevas(recurso);
@@ -56,10 +58,9 @@ class GestorPeticion extends Thread
 				//preparo la respuesta con cabeceras y un HTML que devuelve el recurso pedido
 				cuerpoRespuesta = creadorCuerpo.creaHTML(recurso);
 				respuesta = creadorCabeceras.generarCabeceras("text/html", cuerpoRespuesta.length(), recurso) + cookies + "\r\n\r\n" + cuerpoRespuesta + "\r\n\r\n";
-				System.out.print("\nSe enviará: \n"+ respuesta + "\n");
+				System.out.print("\nSe enviará: \n"+ respuesta);
 				sOut.print(respuesta);
 				sOut.flush();
-				continue;
 			}
 			sIn.close();
 			sOut.close();
@@ -68,13 +69,6 @@ class GestorPeticion extends Thread
 			//System.out.println("Conexión terminada con el usuario anterior. Esperando nueva conexión...");
 		} catch (IOException e) { e.printStackTrace (); }
 	}
-	/*
-	 * private String gestionarCookies() {
-	 * 
-	 * return String;
-		};
-	 */
-		
-		
+	
 }
 

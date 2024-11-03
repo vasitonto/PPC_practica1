@@ -4,7 +4,7 @@ import java.net.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 class Client {
-private final static int PORT = 9999;
+private final static int PORT = 80;
 	
 	/**
 	 * @param args
@@ -31,6 +31,7 @@ private final static int PORT = 9999;
 			while (cont) {
 				System.out.print("Introduce la dirección del recurso, o escribe \"exit\" para salir: ");
 				String recurso = userReader.readLine();
+				System.out.println(recurso);
 				if (recurso.equals("exit"))cont = false;
 				String packet = genCabeceras.generaPeticion("GET", recurso, cookies);//genero un paquete sin contenido
 				System.out.print("se enviará:\n" + packet);
@@ -40,20 +41,20 @@ private final static int PORT = 9999;
 				String textoDevuelto;
 				while((textoDevuelto = sIn.readLine()) != null && !textoDevuelto.isEmpty()){//.length() != 0) {
 					System.out.println(textoDevuelto); // Recibo la respuesta
-					//contentRead += contentRead + textoDevuelto.length();
-					if (textoDevuelto.contains("Content-length")) { 
+					if (textoDevuelto.contains("Content-length")) { //almaceno content-length para la funcion read
 						contentLen = Integer.valueOf(textoDevuelto.split(": ")[1]);
 						cuerpo = new char[contentLen + 10];
 					}
 					
-					if (textoDevuelto.contains("Set-Cookie")) { // por cada cabecera que contenga set-cookie aumentamos el string cookie de la siguiente forma:
+					if (textoDevuelto.contains("Set-Cookie")) { 
+						// por cada cabecera que contenga set-cookie la añadimos al string cookie
 						cookies += genCabeceras.procesaCookie(textoDevuelto);
 					}
 				}
 
 				// ahora leo el cuerpo del mensaje gracias a la cabecera Content-Length
 				sIn.read(cuerpo, 0, contentLen+10);
-				System.out.print(new String(cuerpo));
+				System.out.print(new String(cuerpo) + "\r\n");
 
 //			
 			}
