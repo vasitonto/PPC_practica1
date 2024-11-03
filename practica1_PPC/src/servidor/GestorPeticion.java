@@ -65,8 +65,8 @@ class GestorPeticion extends Thread
 			sIn.close();
 			sOut.close();
 			s.close();
-		//} catch (SocketException sockex) {
-			//System.out.println("Conexión terminada con el usuario anterior. Esperando nueva conexión...");
+		} catch (java.net.SocketException sockex) {
+			System.out.println("Conexión terminada con el usuario anterior. Esperando nueva conexión...");
 		} catch (IOException e) { e.printStackTrace (); }
 	}
 	

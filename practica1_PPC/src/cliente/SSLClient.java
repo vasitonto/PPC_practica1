@@ -1,5 +1,5 @@
 /**
- * Created on 06-oct-2021 
+ * Created on 06-oct-2021  
  *
  * @author Humberto Martinez Barbera
  */
@@ -12,7 +12,7 @@ import javax.net.ssl.*;
 
 public class SSLClient 
 {
-	static public final String			KSTORE		= "certs/clientks.jks";
+	static public final String			KSTORE		= "certs/clientks2.jks";
 	static public final String			KS_PWD		= "clientppc";
 	static public final String			CERT_PWD	= "clientppc";
 
