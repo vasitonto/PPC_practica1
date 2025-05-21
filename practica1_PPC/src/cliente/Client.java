@@ -11,7 +11,7 @@ private final static int PORT = 80;
 	 */
 	public static void main( String args[] ){
 		Socket socCli;
-		BufferedReader userReader = new BufferedReader(new InputStreamReader(System.in));;
+		BufferedReader userReader = new BufferedReader(new InputStreamReader(System.in));
 		BufferedReader sIn;
 		DataOutputStream sOut;
 		HeaderFactory genCabeceras = new HeaderFactory();
@@ -33,6 +33,7 @@ private final static int PORT = 80;
 				String recurso = userReader.readLine();
 				System.out.println(recurso);
 				if (recurso.equals("exit"))cont = false;
+				if (recurso.isEmpty()) continue;
 				String packet = genCabeceras.generaPeticion("GET", recurso, cookies);//genero un paquete sin contenido
 				System.out.print("se enviará:\n" + packet);
 				sOut.writeBytes(packet); // Envío datos sin contenido
