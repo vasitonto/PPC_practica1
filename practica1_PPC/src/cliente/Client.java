@@ -4,7 +4,7 @@ import java.net.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 class Client {
-private final static int PORT = 80;
+private final static int PORT = 8000;
 	
 	/**
 	 * @param args
@@ -16,8 +16,6 @@ private final static int PORT = 80;
 		DataOutputStream sOut;
 		HeaderFactory genCabeceras = new HeaderFactory();
 		boolean cont = true;
-		boolean esCuerpo = false;
-//		int contentRead = 0;
 		int contentLen = 0;
 		String cookies = "";
 		char[] cuerpo = new char[0];

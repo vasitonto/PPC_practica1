@@ -1,21 +1,23 @@
 package servidor;
-import java.io.*;
-import java.net.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-class GestorPeticion extends Thread
-{
-	Socket s;
-	Pattern lineaMet = Pattern.compile("(\\w+)\\s(\\S+)\\s(HTTP\\/1\\.1)"); //([A-Z]+\\s)(\\S+\\s)(HTTP\\/1\\.1)\\s\\n
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+public class GestorPeticiones extends Thread {
+
+	private Socket s;
 	
-	
-	public GestorPeticion (Socket s )
+	public GestorPeticiones (Socket s )
 	{
 		this.s = s;
 	}
-	public void run()
-	{
+	
+	@Override
+	public void run() {
+			
 		BufferedReader sIn;
 		PrintWriter sOut;
 		String texto;
@@ -69,6 +71,4 @@ class GestorPeticion extends Thread
 			System.out.println("Conexión terminada con el usuario anterior. Esperando nueva conexión...");
 		} catch (IOException e) { e.printStackTrace (); }
 	}
-	
 }
-

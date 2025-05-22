@@ -51,8 +51,8 @@ public class SSLServer
 						System.out.println (str);			
 				System.out.println ();			
 			}
-//			s.setEnabledCipherSuites (new String[] {"SSL_DH_anon_WITH_DES_CBC_SHA"});
-			s.setEnabledCipherSuites (new String[] {"TLS_DH_anon_WITH_AES_128_CBC_SHA"});
+			s.setEnabledCipherSuites (new String[] {"SSL_DH_anon_WITH_DES_CBC_SHA"});
+//			s.setEnabledCipherSuites (new String[] {"TLS_DH_anon_WITH_AES_128_CBC_SHA"});
 			
 			while (s != null)
 			{
@@ -128,7 +128,7 @@ public class SSLServer
 
 	static public void main (String[] args)
 	{
-//		SSLServer.instanceEchoServerAnon (4430);
-		SSLServer.instanceEchoServerCert (4430);
+		SSLServer.instanceEchoServerAnon (4430);
+//		SSLServer.instanceEchoServerCert (4430);
 	}
 }
