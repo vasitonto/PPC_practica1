@@ -1,8 +1,3 @@
-/**
- * Created on 06-oct-2021  
- *
- * @author Humberto Martinez Barbera
- */
 package cliente;
 
 import java.io.*;
@@ -10,26 +5,28 @@ import java.net.*;
 import java.security.*;
 import javax.net.ssl.*;
 
-public class SSLClient 
+public class HTTPSClient 
 {
-	public static final int 			port 		= 8433;
+	public static final int 			port 		= 9000;
 	
-	public static final String			KSTORE		= "certs/clientks2.jks";
-	public static final String			KS_PWD		= "clientppc";
-	public static final String			CERT_PWD	= "clientppc";
+	public static final String			KSTORE		= "certs/clientp12.p12";
+	public static final String			KS_PWD		= "practicas";
+	public static final String			CERT_PWD	= "practicas";
 
-	public static void initUserAuth (String address, int port)
+	public static void initUserAuth (String address)
 	{		
 		SSLContext				ctx;
 		SSLSocketFactory		fac; 
 		SSLSocket				s; 
 		KeyStore 				ks;
 		KeyManagerFactory 		kmf;
-		TrustManagerFactory 	tmf;		
+		TrustManagerFactory 	tmf;
+		
+		
 		
 		try {
-						
-			ks = KeyStore.getInstance("JKS");
+			// creo las KeyStore y TrustStore para importar los certificados
+			ks = KeyStore.getInstance("PKCS12");
 			ks.load(new FileInputStream(KSTORE), KS_PWD.toCharArray());
 			
 			kmf = KeyManagerFactory.getInstance("SunX509");
@@ -38,11 +35,12 @@ public class SSLClient
 			tmf = TrustManagerFactory.getInstance("SunX509");
 			tmf.init(ks);
 
+			// Creo un contexto SSL para crear el socketSSL
 			ctx = SSLContext.getInstance("TLS");
 			ctx.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
 			fac = ctx.getSocketFactory();
 			s =  (SSLSocket) fac.createSocket (address, port);
-			
+			s.startHandshake();
 			lanzaCliente(s);
 			
 		} catch (Exception e) { e.printStackTrace(); }
@@ -105,7 +103,6 @@ public class SSLClient
 
 	static public void main (String[] args)
 	{
-//		SSLClient.instanceEchoClientAnon ("127.0.0.1", 4430);
-		SSLClient.initUserAuth ("127.0.0.1", 4430);
+		HTTPSClient.initUserAuth ("127.0.0.1");
 	}
 }
